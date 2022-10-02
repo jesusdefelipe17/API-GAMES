@@ -8,12 +8,17 @@ app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
 
-app.get('/game',(req,resp)=>{
+app.get('/game', async (req,resp)=>{
 
     const juegosApi =[];
 
     (async () =>{
-        const browser = await puppeteer.launch({headless:false});
+        const browser = await puppeteer.launch({headless:false,
+        args:[
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            ],
+        });
         const page = await browser.newPage();
     
         console.log(req.query.id)
@@ -129,7 +134,7 @@ app.get('/game',(req,resp)=>{
     
 })
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log("express has started on port 3000");
   });
 
