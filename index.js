@@ -26,21 +26,6 @@ app.get('/game', async (req,resp)=>{
         await page.waitForSelector('.c1');
         await page.waitForTimeout(5000)
         await page.screenshot({path:'imagen2.jpg'});
-
-   /*
-        const linksJuegos = await page.evaluate(()=>{
-            
-            const elementos = document.querySelectorAll('[class="product-small"] a');
-            console.log(elementos)
-
-            const linkjuegos = [];
-            for(let linkjuego of elementos){
-                console.log(linkjuego.href)
-                linkjuegos.push(linkjuego.href);
-            }
-            return linkjuegos;
-        })
-     */
      
         const juegos = await page.evaluate(()=>{
             const elementos = document.querySelectorAll('[class="name games-name"] a');
