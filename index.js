@@ -67,11 +67,12 @@ app.get('/game', async (req,resp)=>{
                         valores.precio2+=" - "+ document.querySelectorAll('[class="product-content-search"] div.name')[1].innerText
                         valores.web2= document.querySelectorAll('[class="product-platform search"]')[1].innerText; 
 
-                        valores.precio3= document.querySelectorAll('[class="button buy"]')[2].innerText;
-                        valores.precio3+=" - "+ document.querySelectorAll('[class="product-content-search"] div.name')[2].innerText
-                        valores.web3= document.querySelectorAll('[class="product-platform search"]')[2].innerText; 
-
-                       
+                        
+                   }else if(document.querySelectorAll('[class="button buy"]').length>=3){
+                    valores.precio3= document.querySelectorAll('[class="button buy"]')[2].innerText;
+                    valores.precio3+=" - "+ document.querySelectorAll('[class="product-content-search"] div.name')[2].innerText
+                    valores.web3= document.querySelectorAll('[class="product-platform search"]')[2].innerText; 
+                
                    }
                     
                     
@@ -119,5 +120,3 @@ app.get('/game', async (req,resp)=>{
 app.listen(process.env.PORT || 3000, function () {
     console.log("express has started on port 3000");
   });
-
-  
