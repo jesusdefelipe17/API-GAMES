@@ -2,13 +2,26 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const puppeteer = require('puppeteer');
+const cors = require('cors');
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
+app.use(cors({
+    origin: 'http://localhost:4200'
+  }));
+
+
+
+app.get('/ok', async (req,resp)=>{
+
+    resp.send("OK");
+
+})
 
 app.get('/game', async (req,resp)=>{
+    
 
     const juegosApi =[];
 
