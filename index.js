@@ -45,15 +45,11 @@ app.get('/game', async (req,resp)=>{
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
         const page = await browser.newPage();
-    
         console.log(req.query.id)
         await page.goto('https://www.cdkeybay.com/es');
         await page.type('.f-search',req.query.id);
-        await page.screenshot({path:'imagen1.jpg'});
         await page.click('.fa-search');
         await page.waitForSelector('.c1');
-        await page.waitForTimeout(5000)
-        await page.screenshot({path:'imagen2.jpg'});
      
         const juegos = await page.evaluate(()=>{
             const elementos = document.querySelectorAll('[class="name games-name"] a');
