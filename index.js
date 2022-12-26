@@ -4,6 +4,11 @@ const morgan = require('morgan');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
 
+const NodeCache = require("node-cache");
+
+// Crea una instancia de la librería node-cache
+const client = new NodeCache();
+
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
@@ -20,12 +25,22 @@ app.get('/ok', async (req,resp)=>{
 
 })
 
+
 app.get('/game', async (req,resp)=>{
     
-
-    const juegosApi =[];
-
-    (async () =>{
+    const juegosApi=[]
+   // Comprueba si los resultados de la búsqueda ya están en el cache
+   const cacheKey = `${req.query.id}`;
+   const result = await client.get(cacheKey);
+     if (result) {
+       // Devuelve los resultados desde el cache
+       resp.send(JSON.parse(result));
+       return;
+     }
+ 
+     // Si no hay resultados en el cache, realiza el web scraping
+   
+     await (async () => {
         const browser = await puppeteer.launch({headless:true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
@@ -123,8 +138,16 @@ app.get('/game', async (req,resp)=>{
    
         console.log(juegosApi);
         //await browser.close();
-        resp.send(juegosApi)
+       
     })();
+ 
+     // Almacena los resultados en el cache
+     client.set(cacheKey, JSON.stringify(juegosApi), 'EX', 43200); // guarda los resultados por una hora
+     console.log(juegosApi);
+     resp.send(juegosApi);
+
+
+    
     
 
     
